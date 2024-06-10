@@ -1,58 +1,81 @@
-const fs = require('fs-extra')
-if (fs.existsSync('config.env')) require('dotenv').config({ path: __dirname+'/config.env' })
+import { watchFile, unwatchFile } from 'fs'
+import chalk from 'chalk'
+import { fileURLToPath } from 'url'
+import fs from 'fs'
+import cheerio from 'cheerio'
+import fetch from 'node-fetch'
+import axios from 'axios'
+import moment from 'moment-timezone' 
 
+global.owner = [
+  ['201080898312','JACK١⁵', true],
+[ `201080898312`, `JACK١⁵`,true],
+[ `201080898312`, `JACK١⁵`,true],
+]
 
-//═══════[Required Variables]════════\\
-global.owner = process.env.OWNER_NUMBER.split(",")
-global.mongodb = process.env.MONGODB_URI || "mongodb+srv://godzenitsu:safeer.123.@nezuko.7kvhs7q.mongodb.net/"
-global.port= process.env.PORT || 5000
-global.email = ''
-global.github = 'h'
-global.location = 'Sultanpur IN'
-global.gurl = 'https://653d199bb6634.site123.me/' // add your username
-global.sudo = process.env.SUDO || '201208386317'
-global.devs = '201208386317';
-global.website = 'https://chat.whatsapp.com/B8eSVHOjh1Y9V8Kbjqbyez' //wa.me/+25000000000000
-global.THUMB_IMAGE = process.env.THUMB_IMAGE || 'https://telegra.ph/file/ab4018d27c9929dc12595.jpg'
-module.exports = {
-  botname:   process.env.BOT_NAME === undefined ? '*『❄️┇❆ 𝐉𝐀𝐂𝐊 𝐀𝐋𝐊𝐁𝐄𝐑 ❆┇❄️』*' : process.env.BOT_NAME,
-  ownername: process.env.OWNER_NAME === undefined ? '𝐉𝐀𝐂𝐊 𝐀𝐋𝐊𝐁𝐄𝐑 👑' : process.env.OWNER_NAME,
-  sessionName:  process.env.SESSION_ID === undefined ? false : process.env.SESSION_ID,
-  author:  process.env.PACK_INFO.split(";")[0] === undefined ? '*『❄️┇❆ 𝐽𝐴𝐶𝐾 𝐵𝑂𝑇-𝑀𝐷 ❆┇❄️』*' : process.env.PACK_INFO.split(";")[0],
-  auto_read_status :  process.env.AUTO_READ_STATUS === undefined ? false : process.env.AUTO_READ_STATUS,
-  packname:  process.env.PACK_INFO.split(";")[1] === undefined ? '𝐉𝐀𝐂𝐊 𝐀𝐋𝐊𝐁𝐄𝐑 👑' : process.env.PACK_INFO.split(";")[1],
-  autoreaction:  process.env.AUTO_REACTION  === undefined ? false : process.env.AUTO_REACTION ,
-  antibadword :  process.env.ANTI_BAD_WORD === undefined ? 'nbwoed' : process.env.ANTI_BAD_WORD,
-  alwaysonline:  process.env.ALWAYS_ONLINE === undefined ? false : process.env.ALWAYS_ONLINE,
-  antifake : process.env.FAKE_COUNTRY_CODE === undefined ? '971' : process.env.FAKE_COUNTRY_CODE,
-  readmessage:  process.env.READ_MESSAGE === undefined ? false : process.env.READ_MESSAGE,
-  auto_status_saver: process.env.AUTO_STATUS_SAVER === undefined ? false : process.env.AUTO_STATUS_SAVER,
-  HANDLERS:  process.env.PREFIX === undefined ? ['.'] : process.env.PREFIX,
-  warncount : process.env.WARN_COUNT === undefined ? 3 : process.env.WARN_COUNT,
-  disablepm:  process.env.DISABLE_PM === undefined ? false : process.env.DISABLE_PM,
-  levelupmessage:  process.env.LEVEL_UP_MESSAGE === undefined ? false : process.env.LEVEL_UP_MESSAGE,
-  antilink:  process.env.ANTILINK_VALUES === undefined ? 'chat.whatsapp.com' : process.env.ANTILINK_VALUES,
-  antilinkaction: process.env.ANTILINK_ACTION === undefined ? 'remove' : process.env.ANTILINK_ACTION,
-  BRANCH: 'main', 
-  ALIVE_MESSAGE:  process.env.ALIVE_MESSAGE === undefined ? '' : process.env.ALIVE_MESSAGE,
-  autobio:  process.env.AUTO_BIO === undefined ? false : process.env.AUTO_BIO,
-  OPENAI_API_KEY:  process.env.OPENAI_API_KEY === undefined ? false : process.env.OPENAI_API_KEY,
-  heroku:  process.env.heroku === undefined ? false : process.env.heroku,
-  HEROKU: {
-    HEROKU: process.env.HEROKU ||false,
-    API_KEY: process.env.HEROKU_API_KEY === undefined ? '' : process.env.HEROKU_API_KEY,
-    APP_NAME: process.env.HEROKU_APP_NAME === undefined ? '' : process.env.HEROKU_APP_NAME
-},
-  VERSION: process.env.VERSION === undefined ? 'v2' : process.env.VERSION,
-  LANG: process.env.THEME|| 'ELSA',
-  WORKTYPE: process.env.WORKTYPE === undefined ? 'public' : process.env.WORKTYPE
-};
+global.suittag = ['201080898312'] 
+global.prems = ['201080898312', '201080898312'] 
+global.reportes_solicitudes = ['201080898312']
 
+global.packname = '〖💫JACK-𝐵𝛩𝑇💫〗'
+global.author = '201080898312'
+global.wm = 'JACK-𝐵𝛩𝑇'
+global.igfg = 'JACK-𝐵𝛩𝑇'
+global.wait = '*_⌛جاري التحميل▰▰▰▱▱▱▱▱⏳_*'
+function _0x59a4(_0x46c0ff,_0x198c34){var _0x453459=_0x4534();return _0x59a4=function(_0x59a4a4,_0x4efd80){_0x59a4a4=_0x59a4a4-0x9e;var _0x108e75=_0x453459[_0x59a4a4];return _0x108e75;},_0x59a4(_0x46c0ff,_0x198c34);}var _0x583757=_0x59a4;function _0x4534(){var _0x3f1eec=['1365133AXfwgB','*•┃❖انتضر جاري تلبيه طلبك〗*\n*•┃❖انضم الى جروب البوت 〗*\n*•┃❖ا https://chat.whatsapp.com/Ivk2tu4cnQXCp280gBYIjE 〗*','1610710hLobLZ','8wNspVD','786139FZiPQy','12SaSXPH','1040104rTzHFk','858441luSIQe','3718985xnKZMM','4396644QxZNfF','18HasQLA'];_0x4534=function(){return _0x3f1eec;};return _0x4534();}(function(_0x49c1f1,_0x57b9b4){var _0x3f3ba0=_0x59a4,_0x219991=_0x49c1f1();while(!![]){try{var _0x16cb23=parseInt(_0x3f3ba0(0xa0))/0x1+parseInt(_0x3f3ba0(0xa2))/0x2+parseInt(_0x3f3ba0(0xa3))/0x3*(-parseInt(_0x3f3ba0(0xa1))/0x4)+parseInt(_0x3f3ba0(0xa4))/0x5+-parseInt(_0x3f3ba0(0xa5))/0x6+-parseInt(_0x3f3ba0(0xa7))/0x7*(parseInt(_0x3f3ba0(0x9f))/0x8)+parseInt(_0x3f3ba0(0xa6))/0x9*(parseInt(_0x3f3ba0(0x9e))/0xa);if(_0x16cb23===_0x57b9b4)break;else _0x219991['push'](_0x219991['shift']());}catch(_0x3aea7e){_0x219991['push'](_0x219991['shift']());}}}(_0x4534,0x8f0a8),global['wait']=_0x583757(0xa8));global.imagen1 = fs.readFileSync('./Menu2.jpg')
+global.imagen2 = fs.readFileSync('./src/nuevobot.jpg') 
+global.imagen3 = fs.readFileSync('./src/Pre Bot Publi.png')
+global.imagen4 = fs.readFileSync('./Menu.png')
+global.imagen5 = fs.readFileSync('./src/+18.jpg')
 
-let file = require.resolve(__filename)
-fs.watchFile(file, () => {
-	fs.unwatchFile(file)
-	console.log(`Update'${__filename}'`)
-    delete require.cache[file]
-	require(file)
-})
+global.mods = [] 
+
+//********Tiempo***************
+global.d = new Date(new Date + 3600000)
+global.locale = 'es'
+global.dia = d.toLocaleDateString(locale, { weekday: 'long' })
+global.fecha = d.toLocaleDateString('es', { day: 'numeric', month: 'numeric', year: 'numeric' })
+global.mes = d.toLocaleDateString('es', { month: 'long' })
+global.año = d.toLocaleDateString('es', { year: 'numeric' })
+global.tiempo = d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true })
+//*****************************
+global.nn = 'http://wa.me/201208306317' //Grupo 1
+global.nnn = 'https://wa.me/201080898312' //Grupo 1
+global.nnnn = 'https://wa.me/201080898312' //Grupo 1
+global.nnnnn = 'http://wa.me/201208386317' //Grupo 1
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+global.wm2 = `▸ ${dia} ${fecha}\n▸ JACK-𝐵𝛩𝑇`
+global.gt = '★JACK-𝐵𝛩𝑇★'
+global.mysticbot = '★JACK-𝐵𝛩𝑇★'
+global.md = 'https://github.com/BrunoSobrino/TheMystic-Bot-MD'
+global.mysticbot = 'https://github.com/BrunoSobrino/TheMystic-Bot-MD'
+global.waitt = '*[❗] Ƈᴀʀɢᴀɴᴅᴏ, ᴀɢᴜᴀʀᴅᴇ ᴜɴ ᴍᴏᴍᴇɴᴛᴏ...*'
+global.waittt = '*[❗] Ƈᴀʀɢᴀɴᴅᴏ, ᴀɢᴜᴀʀᴅᴇ ᴜɴ ᴍᴏᴍᴇɴᴛᴏ...*'
+global.waitttt = '*[❗] Ƈᴀʀɢᴀɴᴅᴏ, ᴀɢᴜᴀʀᴅᴇ ᴜɴ ᴍᴏᴍᴇɴᴛᴏ...*'
+global.nomorown = '201208386317'
+global.pdoc = ['application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel', 'application/msword', 'application/pdf', 'text/rtf']
+global.cmenut = '❖––––––『'
+global.cmenub = '┊✦ '
+global.cmenuf = '╰━═┅═━––––––๑\n'
+global.cmenua = '\n⌕ ❙❘❙❙❘❙❚❙❘❙❙❚❙❘❙❘❙❚❙❘❙❙❚❙❘❙❙❘❙❚❙❘ ⌕\n     '
+global.dmenut = '*❖─┅──┅〈*'
+global.dmenub = '*┊»*'
+global.dmenub2 = '*┊*'
+global.dmenuf = '*╰┅────────┅✦*'
+global.htjava = '⫹⫺'
+global.htki = '*⭑•̩̩͙⊱•••• ☪*'
+global.htka = '*☪ ••••̩̩͙⊰•⭑*'
+global.comienzo = '• • ◕◕════'
+global.fin = '════◕◕ • •'
+global.botdate = `⫹⫺ Date :  ${moment.tz('America/Los_Angeles').format('DD/MM/YY')}` //Asia/Jakarta
+global.bottime = `𝗧 𝗜 𝗠 𝗘 : ${moment.tz('America/Los_Angeles').format('HH:mm:ss')}`//America/Los_Angeles
+global.fgif = {key: { participant : '0@s.whatsapp.net'}, message: { "videoMessage": { "title": wm, "h": `Hmm`, 'seconds': '999999999',  'gifPlayback': 'true',  'caption': bottime, 'jpegThumbnail': fs.readFileSync('./Menu.png')}}}
+global.multiplier = 250
+//*************************
+
+let file = fileURLToPath(import.meta.url)
+watchFile(file, () => {
+unwatchFile(file)
+console.log(chalk.redBright("Update 'config.js'"))
+import(`${file}?update=${Date.now()}`)})
